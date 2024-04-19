@@ -83,6 +83,19 @@ upload_rom() {
     fi
 }
 
+# Function to apply patches
+apply_patches() {
+    if [ -f "../patches.sh" ]; then
+        echo "[*] Applying patches"
+        cp ../patches.sh .
+        chmod +x patches.sh
+        ./patches.sh
+        rm patches.sh
+    else
+        echo "[!] No patches to apply"
+    fi
+}
+
 # Create the build directory if not already initialized
 if [ -f ".repo/manifest.xml" ]; then
     echo "[!] Repo already initialized"
@@ -137,19 +150,6 @@ if [ "${should_update_trees}" = "1" ]; then
     update_repo "${vendor_tree_path}" "${vendor_tree_branch}" "Vendor repos"
     update_repo "${kernel_tree_path}" "${kernel_tree_branch}" "Kernel repos"
 fi
-
-# Apply patches
-apply_patches() {
-    if [ -f "../patches.sh" ]; then
-        echo "[*] Applying patches"
-        cp ../patches.sh .
-        chmod +x patches.sh
-        ./patches.sh
-        rm patches.sh
-    else
-        echo "[!] No patches to apply"
-    fi
-}
 
 # Clean the out directory if needed
 if [ "${clean_out}" = "1" ]; then
