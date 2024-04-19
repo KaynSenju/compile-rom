@@ -106,10 +106,8 @@ fi
 
 # Clone repositories
 clone_repo "${device_tree_path}" "${device_tree_clone}" "Device tree" "${device_tree_branch}"
-clone_repo "${sepolicy_tree_path}" "${sepolicy_tree_clone}" "Sepolicy tree" "${sepolicy_tree_branch}"
+clone_repo "${common_tree_path}" "${common_tree_clone}" "Sepolicy tree" "${common_tree_branch}"
 clone_repo "${vendor_tree_path}" "${vendor_tree_clone}" "Vendor tree" "${vendor_tree_branch}" 15
-clone_repo "${ims_vendor_tree_path}" "${ims_vendor_tree_clone}" "IMS Vendor tree" "${ims_vendor_tree_branch}" 1
-clone_repo "${fw_vendor_tree_path}" "${fw_vendor_tree_clone}" "Firmware Vendor tree" "${fw_vendor_tree_branch}" 1
 clone_repo "${kernel_tree_path}" "${kernel_tree_clone}" "Kernel" "${kernel_tree_branch}" 250
 
 # Clone and update extra repos
@@ -130,23 +128,23 @@ fi
 # Update repositories if needed
 if [ "${should_update_trees}" = "1" ]; then
     update_repo "${device_tree_path}" "${device_tree_branch}" "Device repos"
-    update_repo "${sepolicy_tree_path}" "${sepolicy_tree_branch}" "Sepolicy repos"
+    update_repo "${common_tree_path}" "${common_tree_branch}" "Sepolicy repos"
     update_repo "${vendor_tree_path}" "${vendor_tree_branch}" "Vendor repos"
-    update_repo "${ims_vendor_tree_path}" "${ims_vendor_tree_branch}" "IMS Vendor repos"
-    update_repo "${fw_vendor_tree_path}" "${fw_vendor_tree_branch}" "Firmware Vendor repos"
     update_repo "${kernel_tree_path}" "${kernel_tree_branch}" "Kernel repos"
 fi
 
 # Apply patches
-if [ -f "../patches.sh" ]; then
-    echo "[*] Applying patches"
-    cp ../patches.sh .
-    chmod +x patches.sh
-    ./patches.sh
-    rm patches.sh
-else
-    echo "[!] No patches to apply"
-fi
+apply_patches() {
+    if [ -f "../patches.sh" ]; then
+        echo "[*] Applying patches"
+        cp ../patches.sh .
+        chmod +x patches.sh
+        ./patches.sh
+        rm patches.sh
+    else
+        echo "[!] No patches to apply"
+    fi
+}
 
 # Clean the out directory if needed
 if [ "${clean_out}" = "1" ]; then
