@@ -12,7 +12,11 @@ git config --global user.name "${git_name}"
 
 # Define main directory
 main_dir="$(readlink -f -- $(pwd))/rom"
-cd "${main_dir}"
+if [ -d ${main_dir} ]; then
+    cd "${main_dir}"
+else
+    mkdir ${main_dir}
+fi
 
 # Function to send Telegram messages
 send_msg() {
