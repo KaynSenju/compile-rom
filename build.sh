@@ -16,6 +16,7 @@ if [ -d ${main_dir} ]; then
     cd "${main_dir}"
 else
     mkdir ${main_dir}
+    cd ${main_dir}
 fi
 
 # Function to send Telegram messages
@@ -100,7 +101,7 @@ if [ -d ".repo" ]; then
         echo "[!] Skipping sync"
     else
         echo "[*] Syncing the repo"
-        repo sync "${sync_args}"
+        repo sync ${sync_args}
         apply_patches
     fi
 else
