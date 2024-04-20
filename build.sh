@@ -105,7 +105,7 @@ else
     cd "${main_dir}" || exit 1
     # Init the repo
     echo "[*] Initializing the repo"
-    repo init -u "${repo}" -b "${repo_branch}" --depth=10
+    repo init -u "${repo}" -b "${repo_branch}" "${init_args}"
 fi
 
 # Sync the repo if initialized
